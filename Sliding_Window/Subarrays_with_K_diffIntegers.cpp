@@ -18,7 +18,7 @@ public:
                 l++;
             }
             if(mp.size() <= k){
-                count++;
+                count += r - l + 1;
             }
         }
         return count;
@@ -31,6 +31,7 @@ public:
 int main(){
     vector<int>nums = {1,2,1,2,3};
     Solution s;
-    cout<<s.subarraysWithKDistinct(nums,2);
+    cout<<"Hello"<<endl;
+    cout<<s.subarraysWithKDistinct(nums,2)<<endl;
     return 0;
 }
