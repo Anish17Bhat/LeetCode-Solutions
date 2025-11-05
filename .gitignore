@@ -1,12 +1,9 @@
-# Ignore compiled files
 *.exe
 *.out
 *.o
 *.obj
 
-# Ignore VS Code config (optional)
 .vscode/
 
-# Ignore temporary files
 *.log
 *.tmp
