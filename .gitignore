@@ -7,3 +7,15 @@
 
 *.log
 *.tmp
+
+Arrays/*
+!Arrays/*.cpp
+
+Heap/*
+!Heap/*.cpp
+
+Recursion/*
+!Recursion/*.cpp
+
+Sliding_Window/*
+!Sliding_Window/*.cpp
