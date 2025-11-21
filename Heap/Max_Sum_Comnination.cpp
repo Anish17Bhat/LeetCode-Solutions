@@ -8,20 +8,28 @@ public:
         int n = nums1.size();
         int m = nums2.size();
         vector<int>result;
-        priority_queue<int>maxHeap;
+        priority_queue<tuple<int,int,int>>maxHeap;
+        set<pair<int,int>>visited;
+        sort(nums1.begin(),nums1.end(),greater<int>());
+        sort(nums2.begin(),nums2.end(),greater<int>());
         int i = 0 , j = 0;
-        while(i < n){
-            while(j < n){
-                maxHeap.push(nums1[i]+nums2[j]);
-                j++;
-            }
-            if(j == n) j = 0;
-            i++;
-        }
-        while(!maxHeap.empty() && j < k){
-            result.push_back(maxHeap.top());
+        maxHeap.push({nums1[0]+nums2[0],0,0});
+        visited.insert({0,0});
+        while(k > 0 && !maxHeap.empty()){
+            auto [sum,i,j] = maxHeap.top();
+            result.push_back(sum);
             maxHeap.pop();
-            j++;
+
+            if(i + 1 < n && !visited.count({i+1,j})){
+                maxHeap.push({nums1[i+1]+nums2[j],i+1,j});
+                visited.insert({i+1,j});
+            }
+
+            if(j + 1 <  m && !visited.count({i,j+1})){
+                maxHeap.push({nums1[i]+nums2[j+1],i,j+1});
+                visited.insert({i,j+1});
+            }
+            k--;
         }
         return result;
   }
