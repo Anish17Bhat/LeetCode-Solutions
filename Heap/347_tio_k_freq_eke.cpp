@@ -6,21 +6,19 @@ class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int,int>mpfreq;
-        multimap<int,int,greater<int>>ans;
+        priority_queue<pair<int,int>>ans;
         vector<int>result;
         int count = k;
         for(int ele : nums){
             mpfreq[ele]++;
         }
         for(auto ele : mpfreq){
-            ans.insert({ele.second,ele.first});
+            ans.push(make_pair(ele.second,ele.first));
         }
-        for(auto i = ans.begin() ; i != ans.end() ; i++){
-            if(count > 0){
-                result.push_back(i->second);
-                count--;
-            }
-            else break;
+        while(count > 0){
+            result.push_back(ans.top().second);
+            ans.pop();
+            count--;
         }
         return result;
     }
