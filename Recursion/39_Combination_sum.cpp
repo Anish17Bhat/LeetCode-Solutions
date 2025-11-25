@@ -3,7 +3,7 @@
 using namespace std;
 
 class Solution {
-    bool helper(int i , int sum , vector<int>&temp, vector<vector<int>>&result, vector<int>&candidates, int target,int n){
+    bool helper(int i , int sum, vector<int>&temp, vector<vector<int>>&result, vector<int>&candidates,int target, int n){
         if(sum == target) {
             result.push_back(temp);
             return true;
@@ -22,6 +22,22 @@ class Solution {
             temp.pop_back();
         }
         return true;
+        // if(i == n){
+        //     if(target == 0){
+        //         result.push_back(temp);
+        //         return;
+        //     }
+        //     else return;
+        // }
+
+        // if(candidates[i] <= target){
+        //     target -= candidates[i];
+        //     temp.push_back(candidates[i]);
+        //     helper(i,target,temp,result,candidates,n);
+        //     target += candidates[i];
+        // }
+
+        // helper(i+1,target,temp,result,candidates,n);
     }
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
