@@ -20,9 +20,6 @@ public:
             else{
                 j++;
             }
-            if(j == m){
-                break;
-            }
         }        
         return i;
     }
