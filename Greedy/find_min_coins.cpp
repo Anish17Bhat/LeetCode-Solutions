@@ -21,7 +21,7 @@ class Solution{
 int main(){
     Solution s;
     vector<int>denominations = {1,2,5,10,20,50,100,500,1000};
-    cout<<s.findMinCoin(49,denominations);
+    cout<<s.findMinCoin(121,denominations);
     cout<<endl;
     return 0;
 }
