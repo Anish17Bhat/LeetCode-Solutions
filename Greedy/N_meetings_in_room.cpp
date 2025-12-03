@@ -2,26 +2,36 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+struct meet{
+    int start;
+    int end;
+    int pos;
+};
+
+bool comp(struct meet m1, struct meet m2){
+    if(m1.end < m2.end) return true;
+    if(m1.end > m2.end) return false;
+    if(m1.pos < m2.pos) return true;
+    return false;
+}
+
 class  Solution{
     public:
         vector<int> MaxNumMeetings(vector<int>&start,vector<int>&end,int n){
-            map<pair<int,int>,int>meetings;
-            for(int i = 0 ; i < n ; i++){
-                meetings.insert({make_pair(end[i],start[i]),i+1});
-            }
-            cout<<endl;
-            for(auto meet : meetings){
-                cout<<"( "<<meet.first.first<<","<<meet.first.second<<" )"<<"  "<<meet.second<<endl;
-            }
-            cout<<endl;
             vector<int>ans;
-            auto t = *(meetings.begin());
-            pair<int,int>temp = t.first;
-            ans.push_back(t.second);
-            for(auto meet : meetings){
-                if(meet.first.second >= temp.first){
-                    ans.push_back(meet.second);
-                    temp = meet.first;
+            struct meet m[n];
+            for(int i = 0 ; i < n ; i++){
+                m[i].start = start[i];
+                m[i].end = end[i];
+                m[i].pos = i+1; 
+            }
+            sort(m,m+n,comp);
+            int whenFin = m[0].end;
+            ans.push_back(m[0].pos);
+            for(int i = 1 ; i < n ; i++){
+                if(m[i].start > whenFin){
+                    ans.push_back(m[i].pos);
+                    whenFin = m[i].end;
                 }
             }
             return ans;
@@ -31,7 +41,7 @@ class  Solution{
     int main(){
         Solution s;
         vector<int>start = {1,3,0,5,8,5};
-        vector<int>end = {5,4,5,9,9,7};
+        vector<int>end = {2,4,5,7,9,9};
         int n = 6;
         vector<int>result = s.MaxNumMeetings(start,end,n);
         for(int ele : result){
