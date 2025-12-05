@@ -3,15 +3,6 @@
 using namespace std;
 
 class Solution {
-    int findMaxInd(int l , int r, vector<int>&nums){
-        int maxind = 0;
-        for(int i = l ; i <= r ; i++){
-            if(i + nums[i] >= maxind){
-                maxind = i + nums[i];
-            }
-        }
-        return maxind;
-    }
 public:
     int jump(vector<int>& nums) {
         int n = nums.size();
@@ -19,10 +10,13 @@ public:
         if(n == 1) return count;
         int l = 0;
         int r = 0;
-        while(l < n-1 && r < n-1){
-            int temp = l;
+        while(r < n-1){
+            int maxind = 0;
+            for(int ind = l ; ind <= r ; ind++){
+                maxind = max(ind+nums[ind],maxind);
+            }
             l = r + 1;
-            r = findMaxInd(temp,r,nums);
+            r = maxind;
             count++;
         }
         return count;
