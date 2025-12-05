@@ -3,20 +3,27 @@
 using namespace std;
 
 class Solution {
+    int findMaxInd(int l , int r, vector<int>&nums){
+        int maxind = 0;
+        for(int i = l ; i <= r ; i++){
+            if(i + nums[i] >= maxind){
+                maxind = i + nums[i];
+            }
+        }
+        return maxind;
+    }
 public:
     int jump(vector<int>& nums) {
         int n = nums.size();
-        int i = n - 1;
-        int maxind = -1;
         int count = 0;
-        while(i != 0){
-            for(int j = i - 1; j >= 0 ; j--){
-                if(i - j <= nums[j]){
-                    maxind = j;
-                }
-            }
+        if(n == 1) return count;
+        int l = 0;
+        int r = 0;
+        while(l < n-1 && r < n-1){
+            int temp = l;
+            l = r + 1;
+            r = findMaxInd(temp,r,nums);
             count++;
-            i = maxind;
         }
         return count;
     }
@@ -24,7 +31,7 @@ public:
 
 int main(){
     Solution s;
-    vector<int>nums = {2,3,1,1,4};
+    vector<int>nums = {3,1,1,2,0,3,4,1,1,1,2};
     cout<<s.jump(nums);
     cout<<endl;
     return 0;
