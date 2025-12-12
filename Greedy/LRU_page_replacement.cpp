@@ -7,44 +7,68 @@ class LRUCache{
         int time = 0;
         int size = 0;
         int cap = 0;
-        map<int,pair<int,int>>lru;
-        unordered_map<int,int>mp;
+        struct ListNode{
+            int key;
+            int val;
+            ListNode* next;
+            ListNode* prev;
+            ListNode() : next(nullptr), prev(nullptr) {}
+            ListNode(int k,int v) : key(k), val(v) {} 
+        };
+        ListNode* head = new ListNode();
+        unordered_map<int,ListNode*>mp;
+
+        void insertFront(ListNode* node){
+            if(head->next == nullptr) {
+                head->next = node;
+                head->prev = node; 
+                node->prev = head;
+                node->next = head;
+                return;
+            }
+            head->next->prev = node;
+            node->next = head->next;
+            node->prev = head;
+            head->next = node;
+        }
     public:
         LRUCache(int capacity){
             cap = capacity;
         }
         void put(int key , int value){
             if(mp.find(key) != mp.end()){
-                int t = mp[key];
-                lru.erase(t);
-                lru[++time] = {key,value};
-                mp[key] = time;
+                ListNode* node = mp[key];
+                node->prev->next = node->next;
+                node->next->prev = node->prev;
+                insertFront(node);
+                mp[key] = node;
             }
             else{
                 if(size < cap){
-                    lru[++time] = {key,value};
-                    mp[key] = time;
+                    ListNode* node = new ListNode(key,value);
+                    insertFront(node);
+                    mp[key] = node;
                     size++;
                 }
                 else{
-                    auto ele = *lru.begin();
-                    int k = ele.second.first;
-                    lru.erase(lru.begin());
-                    mp.erase(k);
-                    lru[++time] = {key,value};
-                    mp[key] = time;
+                    ListNode* lastNode = head->prev;
+                    head->prev = lastNode->prev;
+                    lastNode->prev->next = head;
+                    mp.erase(lastNode->key);
+                    delete lastNode;
+                    ListNode* node = new ListNode(key,value);
+                    insertFront(node);
+                    mp[key] = node;
                 }
             }
         }
         int get(int key){
             if(mp.find(key) == mp.end()) return -1;
-            
-            int t = mp[key];
-            int value = lru[t].second;
-            lru.erase(t);
-            lru[++time] = {key,value};
-            mp[key] = time;
-            return value;
+            ListNode* node = mp[key];
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            insertFront(node);
+            return node->val;
         }
 };
 
