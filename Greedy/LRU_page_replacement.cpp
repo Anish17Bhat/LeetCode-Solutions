@@ -11,12 +11,10 @@ class LRUCache{
         unordered_map<int,int>mp;
     public:
         LRUCache(int capacity){
-            cout<<"hello"<<endl;
-            int size = capacity;
+            cap = capacity;
         }
         void put(int key , int value){
-            cout<<"whatatt";
-            if(mp[key] != 0){
+            if(mp.find(key) != mp.end()){
                 int t = mp[key];
                 lru.erase(t);
                 lru[++time] = {key,value};
@@ -30,7 +28,7 @@ class LRUCache{
                 }
                 else{
                     auto ele = *lru.begin();
-                    int k = ele.first;
+                    int k = ele.second.first;
                     lru.erase(lru.begin());
                     mp.erase(k);
                     lru[++time] = {key,value};
@@ -39,7 +37,7 @@ class LRUCache{
             }
         }
         int get(int key){
-            if(mp[key] == 0) return -1;
+            if(mp.find(key) == mp.end()) return -1;
             
             int t = mp[key];
             int value = lru[t].second;
