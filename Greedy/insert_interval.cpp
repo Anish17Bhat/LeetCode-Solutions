@@ -10,26 +10,20 @@ public:
         int end = newInterval[1];
         int i = 0;
         vector<vector<int>>ans;
-        bool overlap = false;
-        while(i < n){
-            if(intervals[i][0] <= start && start <= intervals[i][1]){
-                overlap = true;
-                start = intervals[i][0];
-                while(i < n){
-                    if(intervals[i][0] <= end && end <= intervals[i][1]){
-                        end = intervals[i][1];
-                        break;
-                    }
-                    i++;
-                }
-                ans.push_back({start,end});
-            }
-            else{
-                ans.push_back(intervals[i]);
-            }
+        while(i < n && intervals[i][1] < start){
+            ans.push_back(intervals[i]);
             i++;
-        }    
-        if(!overlap) ans.push_back({start,end});  
+        }
+        while(i < n && intervals[i][0] <= end){
+            start = min(start,intervals[i][0]);
+            end = max(end,intervals[i][1]);
+            i++;
+        }
+        ans.push_back({start,end});
+        while(i < n){
+            ans.push_back(intervals[i]);
+            i++;
+        }
         return ans;
     }
 };
