@@ -26,7 +26,7 @@ public:
 int main(){
     Solution s;
     vector<vector<int>>intervals = {{1,3},{2,6},{8,10},{15,18},{17,20}};
-    int result = s.merge(intervals);
+    int result = s.eraseOverlapIntervals(intervals);
     cout<<result<<endl;
     return 0;
 }
