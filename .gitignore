@@ -22,3 +22,6 @@ Sliding_Window/*
 
 Greedy/*
 !Greedy/*.cpp
+
+Binary_Trees/*
+!Binary_Trees/*.cpp
