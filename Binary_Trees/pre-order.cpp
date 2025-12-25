@@ -12,16 +12,25 @@ struct TreeNode {
  };
 
 class Solution {
-    void helper(TreeNode* root, vector<int>&traversal){
-        if(root == nullptr) return;
-        traversal.push_back(root->val);
-        helper(root->left,traversal);
-        helper(root->right,traversal);
-    }
+    // void helper(TreeNode* root, vector<int>&traversal){
+    //     if(root == nullptr) return;
+    //     traversal.push_back(root->val);
+    //     helper(root->left,traversal);
+    //     helper(root->right,traversal);
+    // }
     public:
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int>traversal;
-        helper(root,traversal);
+        stack<TreeNode*>st;
+        if(root == nullptr) return traversal;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* ele = st.top();
+            traversal.push_back(ele->val);
+            st.pop();
+            if(ele->right != nullptr) st.push(ele->right);
+            if(ele->left != nullptr) st.push(ele->left);
+        }
         return traversal;    
     }
 };
