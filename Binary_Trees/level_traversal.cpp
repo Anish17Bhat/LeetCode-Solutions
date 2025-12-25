@@ -12,34 +12,23 @@ struct TreeNode {
  };
 
  class Solution {
-     void helper(TreeNode* root, vector<TreeNode*>&level, vector<vector<int>>&result){
-         if(level.empty()) return;
-         vector<TreeNode*>temp;
-         vector<int>vals;
-         for(auto ele : level){
-             if(ele->left != nullptr){
-                 temp.push_back(ele->left);
-                 vals.push_back(ele->left->val);
-             }
-             if(ele->right != nullptr){
-                 temp.push_back(ele->right);
-                 vals.push_back(ele->right->val);
-             }
-         }
-         level = temp;
-         if(!vals.empty())
-            result.push_back(vals);
-         helper(root,level,result);
-     }
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>>result;
-        vector<TreeNode*>level;
-        if(root != nullptr){
-            level.push_back(root);
-            result.push_back({root->val});
+        queue<TreeNode*>q;
+        if(root != nullptr) q.push(root);
+        while(!q.empty()){
+            int size = q.size();
+            vector<int>temp;
+            for(int i = 0 ; i < size ; i++){
+                TreeNode* ele = q.front();
+                if(ele->left != nullptr) q.push(ele->left);
+                if(ele->right != nullptr) q.push(ele->right);
+                temp.push_back(ele->val);
+                q.pop();
+            }
+            result.push_back(temp);
         }
-        helper(root,level,result);
         return result; 
     }
 };
@@ -56,6 +45,5 @@ int main(){
         }
         cout<<endl;
     }
-    cout<<endl;
     return 0;
 }
