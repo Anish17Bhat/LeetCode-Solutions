@@ -22,19 +22,27 @@ public:
     public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int>traversal;
-        stack<TreeNode*>st1;
-        stack<int>st2;
-        if(root != nullptr) st1.push(root);
-        while(!st1.empty()){
-            TreeNode* root = st1.top();
-            st1.pop();
-            st2.push(root->val);
-            if(root->left != nullptr) st1.push(root->left);
-            if(root->right != nullptr) st1.push(root->right);
-        }
-        while(!st2.empty()){
-            traversal.push_back(st2.top());
-            st2.pop();
+        stack<TreeNode*>st;
+        TreeNode* node = root;
+        while(node != nullptr || !st.empty()){
+            while(node != nullptr){
+                st.push(node);
+                node = node->left;
+            }
+            TreeNode* temp = st.top()->right;
+            if(temp == nullptr){
+                temp = st.top();
+                traversal.push_back(temp->val);
+                st.pop();
+                while(!st.empty() && temp == st.top()->right){
+                    temp = st.top();
+                    traversal.push_back(temp->val);
+                    st.pop();
+                }
+            }
+            else{
+                    node = temp;
+            }
         }
         return traversal;    
     }
