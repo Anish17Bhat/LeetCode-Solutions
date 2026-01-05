@@ -33,8 +33,24 @@ class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         map<int,multiset<pair<int,int>>>ans;
-        helper(root,0,0,ans);
+        // helper(root,0,0,ans);
+        int row = 0;
+        int col = 0;
+        queue<pair<TreeNode*,int>>q;
         vector<vector<int>>result;
+        if(!root) return result;
+        q.push({root,col});
+        while(!q.empty()){
+            int size = q.size();
+            for(int i = 0 ; i < size ; i++){
+                auto t = q.front();
+                ans[t.second].insert({row,t.first->val});
+                q.pop();
+                if(t.first->left != nullptr) q.push({t.first->left,t.second-1});
+                if(t.first->right != nullptr) q.push({t.first->right,t.second+1});
+            }
+            row++;
+        }
         for(auto ele : ans){
             vector<int>temp;
             for(auto e : ele.second){
