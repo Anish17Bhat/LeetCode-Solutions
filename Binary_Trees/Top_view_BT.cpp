@@ -32,9 +32,8 @@ class Solution {
     }
 public:
     vector<int> TopView(TreeNode* root) {
-        map<int,multiset<pair<int,int>>>ans;
+        map<int,TreeNode*>ans;
         // helper(root,0,0,ans);
-        int row = 0;
         int col = 0;
         queue<pair<TreeNode*,int>>q;
         vector<int>result;
@@ -44,16 +43,14 @@ public:
             int size = q.size();
             for(int i = 0 ; i < size ; i++){
                 auto t = q.front();
-                ans[t.second].insert({row,t.first->val});
+                if(ans.find(t.second) == ans.end()) ans[t.second] = t.first;
                 q.pop();
                 if(t.first->left != nullptr) q.push({t.first->left,t.second-1});
                 if(t.first->right != nullptr) q.push({t.first->right,t.second+1});
             }
-            row++;
         }
         for(auto ele : ans){
-            int e = (*ele.second.begin()).second;
-            result.push_back(e);
+            result.push_back(ele.second->val);
         }
         return result;
     }
