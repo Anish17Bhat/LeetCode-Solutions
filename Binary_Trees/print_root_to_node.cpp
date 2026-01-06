@@ -12,25 +12,22 @@ struct TreeNode {
  };
 
 class Solution{
-    void helper(TreeNode* root, vector<int>&temp, vector<vector<int>>&ans){
-        if(root == nullptr) return;
-        if(root->left == nullptr && root->right == nullptr){
+    bool helper(TreeNode* root, vector<int>&temp, TreeNode* node){
+        if(root == nullptr) return false;
+        if(root == node){
             temp.push_back(root->val);
-            ans.push_back(temp);
-            temp.pop_back();
-            return ;
+            return true;
         }
         temp.push_back(root->val);
-        helper(root->left,temp,ans);
-        helper(root->right,temp,ans);
+        if(helper(root->left,temp,node) || helper(root->right,temp,node)) return true;
         temp.pop_back();
+        return false;
     }
 	public:
-		vector<vector<int>> allRootToLeaf(TreeNode* root) {
+		vector<int> allRootToLeaf(TreeNode* root, TreeNode* node) {
             vector<int>temp;
-            vector<vector<int>>ans;
-            helper(root,temp,ans);      
-            return ans;   
+            bool b = helper(root,temp,node);       
+            return temp;   
 		}
 };
 
@@ -68,14 +65,13 @@ TreeNode* buildTree(const vector<optional<int>>& arr) {
 
 int main(){
     Solution s;
-    vector<optional<int>>arr = {1, 2, 3, nullopt, 5, nullopt, 4};
+    vector<optional<int>>arr = {1, 2, 3, 4, 5, 6,7,8,9,10,11,12,1,2,4};
     TreeNode* root = buildTree(arr);
-    vector<vector<int>>result = s.allRootToLeaf(root);
+    TreeNode* node = root->right->right->left;
+    vector<int>result = s.allRootToLeaf(root,node);
     for(auto a : result){
-        for(int b : a){
-            cout<<b<<" ";
-        }
-        cout<<endl;
+        cout<<a<<" ";
     }
+    cout<<endl;
     return 0;
 }
