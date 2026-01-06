@@ -26,9 +26,11 @@ public:
                 TreeNode* temp = q.front();
                 q.pop();
                 mp[row] = temp;
-                // if(mp.find(row) == mp.end()) mp[row] = temp;       //for left view
                 if(temp->left != nullptr) q.push(temp->left);
                 if(temp->right != nullptr) q.push(temp->right);
+                // for left view
+                // if(temp->right != nullptr) q.push(temp->right);
+                // if(temp->left != nullptr) q.push(temp->left);
             }
             row++;
         } 
