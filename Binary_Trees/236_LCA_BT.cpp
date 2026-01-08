@@ -12,35 +12,20 @@ struct TreeNode {
  };
 
 class Solution {
-    bool pathFinder(TreeNode* root, vector<TreeNode*>&temp, TreeNode* p){
-        if(root == nullptr) return false;
-        if(root == p){
-            temp.push_back(root);
-            return true;
-        }
-        temp.push_back(root);
-        if(pathFinder(root->left,temp,p) || pathFinder(root->right,temp,p)) return true;
-        temp.pop_back();
-        return false;
-    } 
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*>path2p;
-        vector<TreeNode*>path2q;
-        pathFinder(root,path2p,p);
-        pathFinder(root,path2q,q);
-        int n = path2p.size();
-        int m = path2q.size();
-        int i = 0 ; 
-        int j = 0;
-        TreeNode* ans;
-        while(i < n && j < m){
-            if(path2p[i] != path2q[j]) break;
-            ans = path2p[i];
-            i++;
-            j++;
+        if (root == nullptr || root == p || root == q) {
+            return root;
         }
-        return ans;
+
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+        if (left != nullptr && right != nullptr) {
+            return root;
+        }
+
+        return left != nullptr ? left : right;        
     }
 };
 
@@ -81,7 +66,7 @@ int main(){
     vector<optional<int>>arr = {3,5,1,6,2,0,8,nullopt,nullopt,7,4};
     TreeNode* root = buildTree(arr);
     TreeNode* p = root->left;
-    TreeNode* q = root->right;
+    TreeNode* q = root->left->right->right;
     TreeNode* ans = s.lowestCommonAncestor(root,p,q);
     cout<<ans->val;
     cout<<endl;
