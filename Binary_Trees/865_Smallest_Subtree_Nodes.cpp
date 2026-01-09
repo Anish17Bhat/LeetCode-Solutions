@@ -12,38 +12,24 @@ struct TreeNode {
  };
 
 class Solution {
-    vector<TreeNode*> bfs(TreeNode* root){
-        vector<TreeNode*>ans;
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            ans.clear();
-            for(int i = 0 ; i < size ; i++){
-                ans.push_back(q.front());
-                if(q.front()->left != nullptr) q.push(q.front()->left);
-                if(q.front()->right != nullptr) q.push(q.front()->right);
-                q.pop();
-            }
-        }
-        return ans;
-    }
+    TreeNode* lca = nullptr;
+    int maxDepth = 0;
 
-    TreeNode* lca(TreeNode* root, vector<TreeNode*>&deepestNodes){
-        if(!root || (find(deepestNodes.begin(),deepestNodes.end(),root) != deepestNodes.end())){
-            return root;
-        }
-        TreeNode* l = lca(root->left,deepestNodes);
-        TreeNode* r = lca(root->right,deepestNodes);
+    int dfs(TreeNode* root, int depth){
+        maxDepth = max(maxDepth,depth);
+        
+        if(root == nullptr) return depth;
 
-        if(l && r) return root;
+        int l = dfs(root->left,depth+1);
+        int r = dfs(root->right,depth+1);
 
-        return l ? l : r; 
+        if(l == maxDepth && r == maxDepth) lca = root;
+        return max(l,r);
     }
 public:
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        vector<TreeNode*>deepestNodes = bfs(root);
-        return lca(root,deepestNodes);
+        dfs(root,0);
+        return lca;
     }
 };
 
