@@ -25,3 +25,6 @@ Greedy/*
 
 Binary_Trees/*
 !Binary_Trees/*.cpp
+
+Strings/*
+!Strings/*.cpp

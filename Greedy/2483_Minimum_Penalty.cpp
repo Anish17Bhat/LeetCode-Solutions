@@ -6,10 +6,9 @@ class Solution {
 public:
     int bestClosingTime(string customers) {
         int n = customers.size();
-        vector<int>Nprefix(n+1);
-        vector<int>Ysufix(n+1);    
+        vector<int>Nprefix(n+1,0);
+        vector<int>Ysufix(n+1,0);    
         //precomputation
-        Nprefix[0] = 0;
         int count = 0;
         if(customers[0] == 'N') count++;
         for(int i = 1 ; i < n ; i++){
@@ -18,15 +17,12 @@ public:
         }  
         Nprefix[n] = count;
         count = 0;
-        Ysufix[n-1] = 0;
-        Ysufix[n] = 0;
         if(customers[n-1] == 'Y') count++;
         for(int i = n - 2 ; i >= 0 ; i--){
             Ysufix[i] = count;
             if(customers[i] == 'Y') count++;
         }
-        //precomputation done
-        //real war begins
+ 
         int ans;
         int penalty = 0;
         int minPenalty = INT_MAX;
