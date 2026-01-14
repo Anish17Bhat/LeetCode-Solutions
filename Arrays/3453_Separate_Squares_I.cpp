@@ -9,7 +9,7 @@ public:
         double low = 2e9;
         double high = 0;
 
-        for(auto s : squares){
+        for(auto &s : squares){
             double y = s[1];
             double h = s[2];
             low = min(low,y);
@@ -24,7 +24,7 @@ public:
 
             double currentArea = 0.0;
 
-            for(auto s : squares){
+            for(auto &s : squares){
                 double y = s[1];
                 double h = s[2];
                 double h_below = max(0.0,min(h,mid-y));
