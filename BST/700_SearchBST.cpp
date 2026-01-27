@@ -58,6 +58,6 @@ int main(){
     vector<optional<int>>arr = {4,2,7,1,3};
     TreeNode* root = buildTree(arr);
     TreeNode* t = s.searchBST(root,3);
-    return t->val;
+    cout<<t->val<<endl;
     return 0;
 }
