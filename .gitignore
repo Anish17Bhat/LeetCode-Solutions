@@ -28,3 +28,6 @@ Binary_Trees/*
 
 Strings/*
 !Strings/*.cpp
+
+BST/*
+!BST/*.cpp
