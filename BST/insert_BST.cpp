@@ -36,14 +36,11 @@ void levelOrder(TreeNode* root){
     queue<TreeNode*>q;
     q.push(root);
     while(!q.empty()){
-        int size = q.size();
-        for(int i = 0 ; i < size; i++){
-            TreeNode* e = q.front();
-            cout<<e->val<<" ";
-            q.pop();
-            if(e->left) q.push(e->left);
-            if(e->right) q.push(e->right);
-        }
+        TreeNode* e = q.front();
+        cout<<e->val<<" ";
+        q.pop();
+        if(e->left) q.push(e->left);
+        if(e->right) q.push(e->right);
     }
 }
 
