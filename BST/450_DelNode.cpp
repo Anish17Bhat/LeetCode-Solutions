@@ -12,115 +12,38 @@ struct TreeNode {
  };
 
 class Solution {
-    unordered_map<TreeNode*,pair<TreeNode*,int>>parent_track;
-
-    void setParents(TreeNode* root){
-        if(!root) return;
-        parent_track[root] = {nullptr,-1};
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            for(int i = 0 ; i < size ; i++){
-                TreeNode* ele = q.front();
-                q.pop();
-                if(ele->left){
-                    parent_track[ele->left] = {ele,0};
-                    q.push(ele->left);
-                } 
-                if(ele->right){
-                    parent_track[ele->right] = {ele,1};
-                    q.push(ele->right);
-                } 
-            }
-        }
-    }
-
-    TreeNode* findDelNode(TreeNode* root, int key){
-        while(root && root->val != key){
-            root = root->val < key ? root->right : root->left;
+    TreeNode* Replace(TreeNode* root){
+        while(root->right){
+            root = root->right;
         }
         return root;
     }
-    bool isLeaf(TreeNode* node){
-        if(!node->left && !node->right) return true;
-        return false;
-    }
-
-    TreeNode* findGreaterLeft(TreeNode* root){
-        if(root == nullptr) return nullptr;
-        TreeNode* prev = root;
-        while(root){
-            prev = root;
-            root = root->right;
-        }
-        return prev;
-    }
-
-    TreeNode* findSmallerRight(TreeNode* root){
-        if(!root) return nullptr;
-        TreeNode* prev = root;
-        while(root){
-            prev = root;
-            root = root->left;
-        }
-        return prev;
-    }
-
-    void delNode(TreeNode* node){
-        auto parent = parent_track[node];
-        if(parent.second) parent.first->right = nullptr;
-        else parent.first->left = nullptr; 
-        node->left = nullptr;
-        node->right = nullptr;
-        delete node;
-    }
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-        setParents(root);
-        TreeNode* node = findDelNode(root,key);
-        if(!node) return root;
-        if(isLeaf(node) && root == node) return nullptr;
-        if(isLeaf(node)){
-            auto parent = parent_track[node];
-            if(parent.second) parent.first->right = nullptr;
-            else parent.first->left = nullptr; 
-            return root;
-        }
-        TreeNode* lefty = node->left;
-        TreeNode* righty = node->right;
-        if(lefty && righty || lefty && !righty){
-            TreeNode* gre = findGreaterLeft(lefty);
-            node->val = gre->val;
-            if(lefty == gre){
-                node->left = lefty->left;
-                delete gre;
-            }
+        if(root){
+            if(key < root->val) root->left = deleteNode(root->left,key);
+            else if(key > root->val) root->right = deleteNode(root->right,key);
             else{
-                auto parent = parent_track[gre];
-                if(gre->left){
-                    if(parent.second) parent.first->right = gre->left;
-                    else parent.first->left = gre->left; 
-                } 
-                if(isLeaf(gre)) delNode(gre);
-                else delete gre;
-            }
-        }
-        else if(!lefty && righty){
-            TreeNode* sm = findSmallerRight(righty);
-            node->val = sm->val;
-            if(sm == righty){
-                node->right = righty->right;
-                delete sm;
-            }
-            else{
-                auto parent = parent_track[sm];
-                if(sm->right){
-                    if(parent.second) parent.first->right = sm->right;
-                    else parent.first->left = sm->right; 
-                } 
-                if(isLeaf(sm)) delNode(sm);
-                else delete sm;
+                TreeNode* lefty = root->left;
+                TreeNode* righty = root->right;
+                if(!lefty && !righty){
+                    delete root;
+                    return nullptr;
+                }
+                else if(!lefty || !righty){
+                    TreeNode* temp;
+                    if(lefty){
+                        temp = root->left;
+                    }
+                    else temp = root->right;
+                    delete root;
+                    return temp;
+                }
+                else{
+                    TreeNode* find = Replace(root->left);
+                    root->val = find->val;
+                    root->left = deleteNode(root->left,find->val);
+                }
             }
         }
         return root;
@@ -174,7 +97,7 @@ int main(){
     Solution s;
     vector<optional<int>>arr = {4,nullopt,7,6,8,5,nullopt,nullopt,9};
     TreeNode* root = buildTree(arr);
-    TreeNode* res = s.deleteNode(root,5);
+    TreeNode* res = s.deleteNode(root,9);
     levelOrder(res);
     cout<<endl;
     return 0;
