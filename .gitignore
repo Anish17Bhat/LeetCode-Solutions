@@ -31,3 +31,6 @@ Strings/*
 
 BST/*
 !BST/*.cpp
+
+Graphs/*
+!Graphs/*.cpp
