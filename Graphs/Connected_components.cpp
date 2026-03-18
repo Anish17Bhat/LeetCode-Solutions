@@ -5,7 +5,7 @@ using namespace std;
 class Solution {
 public:
     int countComponents(int n, vector<vector<int>>& edges) {
-        vector<vector<int>>adj(n);
+        vector<int>adj[n];
         for(vector<int> v : edges){
             int vertex1 = v[0];
             int vertex2 = v[1];
@@ -27,7 +27,7 @@ public:
         return res;
     }
 
-    void dfs(vector<vector<int>>&adj , vector<int>&visit, int vertex){
+    void dfs(vector<int>adj[] , vector<int>&visit, int vertex){
         visit[vertex] = 1;
         for(int node : adj[vertex]){
             if(!visit[node]){
