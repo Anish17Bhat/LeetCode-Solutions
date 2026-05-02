@@ -28,7 +28,7 @@ int main()
     Solution s;
     vector<vector<int>> input = {{7, 4}, {0, 1}, {1, 2}, {2, 3}, {4, 5}};
     vector<vector<int>> result = s.builGraph(input);
-    for (int i = 1; i < result.size(); i++)
+    for (int i = 0; i < result.size(); i++)
     {
         cout << i << " -> ";
         for (int j : result[i])
