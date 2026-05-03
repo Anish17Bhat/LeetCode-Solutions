@@ -4,24 +4,39 @@ using namespace std;
 
 class Solution{
 public:
-
-    void dfs(int i , int parent, vector<int>adj[] , vector<int>&visited, bool &check){
-        visited[i] = 1;
-        for(int ele : adj[i]){
-            if(!visited[ele]){
-                dfs(ele,i,adj,visited,check);
-            }
-            else if(parent != ele) check = true;
-        }
-    }
+    //dfs
+    // void dfs(int i , int parent, vector<int>adj[] , vector<int>&visited, bool &check){
+    //     visited[i] = 1;
+    //     for(int ele : adj[i]){
+    //         if(!visited[ele]){
+    //             dfs(ele,i,adj,visited,check);
+    //         }
+    //         else if(parent != ele) check = true;
+    //     }
+    // }
 
     bool isCycle(int V, vector<int> adj[]) {
         vector<int>visited(V,0);
         bool check = false;
-        int parent = -1;
-        for(int i = 0 ; i < V ; i++){
-            if(!visited[i]){
-                dfs(i,-1,adj,visited,check);
+        // for(int i = 0 ; i < V ; i++){
+        //     if(!visited[i]){
+        //         dfs(i,-1,adj,visited,check);
+        //     }
+        // }
+        queue<pair<int,int>>q;
+        q.push({0,-1});
+        visited[0] = 1;
+        while(!q.empty()){
+            pair<int,int>ele = q.front();
+            q.pop();
+            for(int v : adj[ele.first]){
+                if(!visited[v]){
+                    q.push({v,ele.first});
+                    visited[v] = 1;
+                }
+                else if(v != ele.second){
+                    check = true;
+                }
             }
         }
         return check;
