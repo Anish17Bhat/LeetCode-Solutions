@@ -11,7 +11,7 @@ public:
     //         if(!visited[ele]){
     //             dfs(ele,i,adj,visited,check);
     //         }
-    //         else if(parent != ele) check = true;
+    //         else if(parent != ele) check = true;  // if it is visited and not its parent
     //     }
     // }
 
@@ -34,7 +34,7 @@ public:
                     q.push({v,ele.first});
                     visited[v] = 1;
                 }
-                else if(v != ele.second){
+                else if(v != ele.second){     //if it is visited and not its parent
                     check = true;
                 }
             }
