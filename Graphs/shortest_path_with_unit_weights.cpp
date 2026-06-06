@@ -32,6 +32,9 @@ class Solution {
                 }
             }
         }
+        for(int i = 0 ; i < N ; i++){
+            if(distance[i] == INT_MAX) distance[i] = -1;
+        }
         return distance;
     }
 };
@@ -39,8 +42,8 @@ class Solution {
 
 int main(){
     Solution s;
-    vector<vector<int>>edges = { {0,1},{0,3},{3,4},{4,5},{5,6},{1,2},{2,6},{6,7},{7,8},{6,8}};
-    vector<int>ans = s.shortestPath(edges,9,10);
+    vector<vector<int>>edges = { {0,1},{0,3},{3,4},{4,5},{5,6},{1,2},{2,6},{6,7},{7,8},{6,8},{9,10}};
+    vector<int>ans = s.shortestPath(edges,11,11);
     for(int e : ans){
         cout<<e<<" ";
     }
