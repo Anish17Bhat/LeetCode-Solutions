@@ -36,5 +36,11 @@ public:
 
 int main(){
     vector<vector<int>> edges = {{3, 2, 6}, {5, 3, 1}, {0, 1, 5}, {1, 5, -3}, {1, 2, -2}, {3, 4, -2}, {2, 4, 3}};
+    Solution s;
+    vector<int>ans = s.bellman_ford(6,edges,0);
+    for(int e : ans){
+        cout<<e<<" ";
+    }
+    cout<<endl;
     return 0;
 }
