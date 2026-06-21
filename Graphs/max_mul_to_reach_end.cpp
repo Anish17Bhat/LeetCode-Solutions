@@ -17,10 +17,11 @@ public:
             q.pop();
             for(int i = 0 ; i < n; i++){
                 int num = (v * arr[i]) % 100000;
-                if(steps + 1 < distance[num]){
-                    distance[num] = steps + 1;
-                    if(num == end) return steps + 1;
-                    q.push({steps + 1,num});
+                int newSteps = steps + 1;
+                if(newSteps < distance[num]){
+                    distance[num] = newSteps;
+                    if(num == end) return newSteps;
+                    q.push({newSteps,num});
                 }
             }
         }
